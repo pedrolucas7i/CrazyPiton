@@ -4,7 +4,7 @@ import os
 def get_wifi_profiles():
     """Retrieve a list of saved Wi-Fi profiles."""
     try:
-        output = subprocess.check_output(["netsh", "wlan", "show", "profiles"]).decode("utf-8")
+        output = subprocess.check_output(["netsh", "wlan", "show", "profiles"]).decode("windows-1252")
         profiles = [line.split(":")[1][1:-1] for line in output.split("\n") if "All User Profile" in line]
         return profiles
     except subprocess.CalledProcessError:
@@ -14,7 +14,7 @@ def get_wifi_profiles():
 def get_wifi_password(profile):
     """Retrieve the Wi-Fi password for a given profile."""
     try:
-        output = subprocess.check_output(["netsh", "wlan", "show", "profile", profile, "key=clear"]).decode("utf-8")
+        output = subprocess.check_output(["netsh", "wlan", "show", "profile", profile, "key=clear"]).decode("windows-1252")
         for line in output.split("\n"):
             if "Key Content" in line:
                 return line.split(":")[1][1:-1]  # Extract password
